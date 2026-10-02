@@ -1,8 +1,13 @@
-# Validation results
+# Validation
 
-- Five automated tests passed on Python 3.12 using an isolated SQLite test database.
-- Covered registration, scrypt password hashes, duplicate emails, invalid passwords, login/logout, session revocation, CSRF rejection, invalid inputs, rate limits, protected routes, private per-account watchlists, repeated adds, watched/unwatched updates, removal, and persistence after sign-out/sign-in.
-- The application defaults to MySQL through PyMySQL. MySQL schema and Docker Compose are included.
-- Live MySQL/MariaDB testing could not be completed in the build environment because the database server could not create a UNIX socket. Run the provided tests against a disposable MySQL database before submission.
-- Browser visual checks could not be completed because browser downloads failed. Templates were rendered in functional tests; responsive CSS is included.
-- No public deployment has been created. A hosting connection is required.
+Verified for the public submission on 2026-10-02:
+
+- `python -m pytest -q`: **6 passed**.
+- The WSGI entry point imports and exports the Flask application as `wsgi:app`.
+- The deployed home page, `/signup`, and `/login` returned HTTP 200.
+- The deployed `/health` endpoint returned `{"status":"ok"}`, confirming database connectivity.
+- The public app uses a separate Railway MySQL service and a private service-to-service connection.
+
+The automated suite uses isolated temporary SQLite databases by default. It covers account registration, scrypt password hashes, duplicate accounts, login/logout and session revocation, CSRF validation, input validation, authentication rate limiting, protected routes, and private watchlist create/read/update/delete behavior.
+
+GitHub Actions runs the tests on pushes and pull requests targeting `main`. The live website is linked from the [README](./README.md).
