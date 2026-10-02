@@ -53,12 +53,36 @@ def create_app(test_config=None):
     secret = os.getenv('SECRET_KEY', '')
     if not test_config and (len(secret)<32 or secret.startswith('replace-')):
         raise RuntimeError('Set SECRET_KEY in .env to a random value of at least 32 characters. See README.md.')
+    production = os.getenv('APP_ENV') == 'production'
     database_url = os.getenv('DATABASE_URL')
     if database_url and database_url.startswith('mysql://'):
         database_url = database_url.replace('mysql://','mysql+pymysql://',1)
     if not database_url:
-        database_url = URL.create('mysql+pymysql', username=os.getenv('MYSQL_USER','root'), password=os.getenv('MYSQL_PASSWORD','sqlcharan'), host=os.getenv('MYSQL_HOST','127.0.0.1'), port=int(os.getenv('MYSQL_PORT','3306')), database=os.getenv('MYSQL_DATABASE','netflix_clone'), query={'charset':'utf8mb4'})
-    production = os.getenv('APP_ENV') == 'production'
+        mysql_host = os.getenv('MYSQL_HOST', '127.0.0.1')
+        mysql_user = os.getenv('MYSQL_USER')
+        mysql_password = os.getenv('MYSQL_PASSWORD')
+        mysql_database = os.getenv('MYSQL_DATABASE', 'netflix_clone')
+        if production:
+            missing = [
+                name for name, value in (
+                    ('MYSQL_HOST', os.getenv('MYSQL_HOST')),
+                    ('MYSQL_USER', mysql_user),
+                    ('MYSQL_PASSWORD', mysql_password),
+                    ('MYSQL_DATABASE', os.getenv('MYSQL_DATABASE')),
+                ) if not value
+            ]
+            if missing:
+                raise RuntimeError(
+                    f"Set {', '.join(missing)} in the production environment."
+                )
+            if mysql_host.strip().lower() in {'localhost', '127.0.0.1', '::1'}:
+                raise RuntimeError(
+                    'MYSQL_HOST must be the address of a MySQL server reachable '
+                    'from the web service, not a loopback address.'
+                )
+        database_url = URL.create('mysql+pymysql', username=mysql_user, password=mysql_password,
+            host=mysql_host, port=int(os.getenv('MYSQL_PORT','3306')), database=mysql_database,
+            query={'charset':'utf8mb4'})
     app.config.update(SECRET_KEY=secret, SQLALCHEMY_DATABASE_URI=database_url,
         SQLALCHEMY_TRACK_MODIFICATIONS=False, SQLALCHEMY_ENGINE_OPTIONS={'pool_pre_ping':True,'pool_recycle':280},
         SESSION_COOKIE_HTTPONLY=True, SESSION_COOKIE_SAMESITE='Lax',

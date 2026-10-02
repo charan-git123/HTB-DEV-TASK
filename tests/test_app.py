@@ -22,6 +22,27 @@ def app(tmp_path):
 @pytest.fixture
 def client(app): return app.test_client()
 
+def test_production_requires_external_mysql_configuration(monkeypatch):
+    monkeypatch.setenv('APP_ENV', 'production')
+    monkeypatch.setenv('SECRET_KEY', 'production-test-secret-key-that-is-long-enough')
+    monkeypatch.delenv('DATABASE_URL', raising=False)
+    for name in ('MYSQL_HOST', 'MYSQL_USER', 'MYSQL_PASSWORD', 'MYSQL_DATABASE'):
+        monkeypatch.delenv(name, raising=False)
+
+    with pytest.raises(RuntimeError, match='MYSQL_HOST, MYSQL_USER, MYSQL_PASSWORD, MYSQL_DATABASE'):
+        create_app()
+
+    for name, value in {
+        'MYSQL_HOST': '127.0.0.1',
+        'MYSQL_USER': 'render_test_user',
+        'MYSQL_PASSWORD': 'render_test_password',
+        'MYSQL_DATABASE': 'render_test_database',
+    }.items():
+        monkeypatch.setenv(name, value)
+
+    with pytest.raises(RuntimeError, match='not a loopback address'):
+        create_app()
+
 def token(client,path='/login'):
     response=client.get(path)
     return re.search(r'name="csrf_token" value="([^"]+)"',response.text).group(1)
