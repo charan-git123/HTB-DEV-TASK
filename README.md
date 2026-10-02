@@ -25,9 +25,6 @@ An independent educational recreation built with Flask, MySQL, HTML, CSS, and Ja
 - Case-normalized unique email addresses and server-side validation.
 - Hashed passwords and persistent, revocable login sessions.
 - Personal watchlists with add, remove, and watched/unwatched actions.
-- Instant title, genre, format, and synopsis search on the browse and watchlist pages.
-- Cinematic title cards with subtle pointer tilt, poster zoom, a custom animated 3D-style monogram, and reduced-motion support.
-- Sample IMDb-style scores and episode counts, clearly identified as static project metadata.
 - CSRF protection, parameterized database queries, security headers, and database-backed sign-in rate limits.
 - Locally styled poster artwork; no promotional image files are required to run the public app.
 
