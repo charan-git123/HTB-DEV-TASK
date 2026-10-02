@@ -1,0 +1,43 @@
+.hero {
+  background-image:
+    radial-gradient(ellipse at 50% 40%, #8b10204d, transparent 55%),
+    linear-gradient(0deg, #070707 1%, #0008 43%, #0008 85%, #000c);
+}
+
+.poster-image,
+.movie-art {
+  background-image: linear-gradient(145deg, #40121d, #181a32 56%, #090909);
+}
+
+.poster-art-2 {
+  background-image: linear-gradient(145deg, #4a2713, #2a1939 56%, #090909);
+}
+
+.poster-art-3 {
+  background-image: linear-gradient(145deg, #2d3f2d, #172837 56%, #090909);
+}
+
+.poster-art-4 {
+  background-image: linear-gradient(145deg, #43171c, #182b3c 56%, #090909);
+}
+
+.poster-art-5 {
+  background-image: linear-gradient(145deg, #234236, #182e4c 56%, #090909);
+}
+
+.poster-art-6 {
+  background-image: linear-gradient(145deg, #44351b, #31203d 56%, #090909);
+}
+
+.movie-art-title {
+  position: absolute;
+  inset: auto 20px 24px;
+  font-size: clamp(1.4rem, 4vw, 2.1rem);
+  font-weight: 800;
+  line-height: 1.1;
+  text-shadow: 0 2px 14px #000;
+}
+
+.movie-art .type-badge {
+  z-index: 1;
+}

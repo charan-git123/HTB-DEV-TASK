@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="A Netflix-inspired student project. Discover titles and build your own watchlist.">
+<title>{% block title %}Netflix — Discover your next favourite{% endblock %}</title>
+<link rel="stylesheet" href="{{ url_for('static',filename='styles.css') }}">
+<link rel="stylesheet" href="{{ url_for('static',filename='artwork.css') }}">
+<script src="{{ url_for('static',filename='app.js') }}" defer></script>
+</head>
+<body class="{% block body_class %}{% endblock %}">
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-header">
+<a class="logo" href="{{ url_for('home') }}" aria-label="Netflix project home">NETFLIX</a>
+{% if g.user %}
+<nav aria-label="Main navigation"><a href="{{ url_for('browse') }}" {% if request.endpoint=='browse' %}aria-current="page"{% endif %}>Browse</a><a href="{{ url_for('my_list') }}" {% if request.endpoint=='my_list' %}aria-current="page"{% endif %}>My List</a></nav>
+<div class="account"><span class="avatar">{{ g.user.name[0]|upper }}</span><span class="user-name">{{ g.user.name }}</span><form method="post" action="{{ url_for('logout') }}"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><button class="text-button">Sign out</button></form></div>
+{% else %}
+<div class="header-actions"><span class="language">◎ &nbsp; English</span><a class="button small" href="{{ url_for('login') }}">Sign In</a></div>
+{% endif %}
+</header>
+{% with messages=get_flashed_messages(with_categories=true) %}{% if messages %}<div class="toast" role="status">{% for category,message in messages %}<p>{{ message }}</p>{% endfor %}<button type="button" aria-label="Dismiss notification" data-dismiss>×</button></div>{% endif %}{% endwith %}
+{% block content %}{% endblock %}
+<footer class="footer"><div class="footer-top"><a class="logo" href="{{ url_for('home') }}">NETFLIX</a><div><a href="{{ url_for('home') }}#faq">Help & FAQ</a><a href="{{ url_for('my_list') if g.user else url_for('signup') }}">{{ 'My List' if g.user else 'Create an account' }}</a></div></div><p>Educational recreation. Not affiliated with Netflix. Use a new password for this project.</p><p class="muted">Browse titles and save favourites. Streaming and paid memberships are not included.</p></footer>
+</body></html>
