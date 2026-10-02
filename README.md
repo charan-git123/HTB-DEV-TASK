@@ -120,6 +120,12 @@ Official deployment documentation:
 
 GitHub Pages cannot run Flask or MySQL. Do not deploy just the HTML there and expect authentication to work.
 
+## Deploy on Render
+
+For a Render **Web Service**, use the repository root as the root directory, `pip install -r requirements.txt` as the build command, and `sh start.sh` as the start command. Do not use `gunicorn app:app`: `app.py` defines the `create_app()` factory and does not export an `app` object. The WSGI application is exported by `wsgi.py`; `start.sh` initializes the schema and starts Gunicorn with `wsgi:app` on Render's `PORT`.
+
+Set `SECRET_KEY` to a newly generated random value of at least 32 characters, `APP_ENV=production`, and `SECURE_COOKIES=true` in the Render service's environment. Configure `MYSQL_HOST`, `MYSQL_PORT`, `MYSQL_DATABASE`, `MYSQL_USER`, and `MYSQL_PASSWORD` to reach your MySQL server from Render. Keep credentials in Render's environment settings, not in GitHub or `.env` committed to the repository. Redeploy after changing the start command and environment.
+
 ## Assignment demonstration
 
 1. Visit `/`, `/signup`, and `/login` to show the required three pages.
