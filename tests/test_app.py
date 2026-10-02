@@ -117,3 +117,24 @@ def test_pages_and_security_headers(client):
         assert 'Content-Security-Policy' in response.headers
     assert client.get('/health').json=={'status':'ok'}
     assert client.get('/missing').status_code==404
+
+def test_catalog_search_and_movie_details(client):
+    signup(client)
+    response=client.get('/browse')
+    assert response.status_code==200
+    assert 'id="catalog-search"' in response.text
+    assert 'data-catalog-search' in response.text
+    assert 'data-movie-card' in response.text
+    assert 'data-search-text="stranger things sci-fi series' in response.text
+    assert 'IMDb <strong>★ 8.6</strong>' in response.text
+    assert '5 seasons' in response.text
+    assert '42 episodes' in response.text
+    assert 'not live IMDb data' in response.text
+    assert client.get('/static/app.js').status_code==200
+    assert client.get('/static/artwork.css').status_code==200
+
+def test_home_has_original_animated_monogram(client):
+    response=client.get('/')
+    assert response.status_code==200
+    assert 'class="hero-monogram"' in response.text
+    assert 'class="home-rating">★ 8.6</span>' in response.text

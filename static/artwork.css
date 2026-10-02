@@ -41,3 +41,322 @@
 .movie-art .type-badge {
   z-index: 1;
 }
+
+.hero {
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.hero-monogram {
+  position: absolute;
+  z-index: -1;
+  top: 48%;
+  right: clamp(2rem, 13vw, 15rem);
+  color: transparent;
+  font-size: clamp(24rem, 54vw, 52rem);
+  font-weight: 900;
+  line-height: 0.75;
+  opacity: 0.3;
+  pointer-events: none;
+  transform: translateY(-50%) perspective(900px) rotateY(-21deg) rotateZ(-8deg);
+  animation: monogram-drift 9s ease-in-out infinite alternate;
+}
+
+.hero-monogram > span:first-child,
+.browse-hero-monogram > span {
+  background: linear-gradient(145deg, #fff 2%, #ff3345 26%, #b40022 58%, #39121c 88%);
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(15px 18px 0 #71001c) drop-shadow(27px 29px 19px #e5091466);
+}
+
+.monogram-orbit {
+  position: absolute;
+  top: 50%;
+  left: 12%;
+  width: 78%;
+  height: 25%;
+  border: 2px solid #ff748666;
+  border-radius: 50%;
+  box-shadow: 0 0 30px #e5091455, inset 0 0 24px #e5091422;
+  transform: translateY(-50%) rotate(-29deg);
+}
+
+.browse-hero {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  background-image:
+    radial-gradient(ellipse at 76% 48%, #a4103a44, transparent 40%),
+    linear-gradient(90deg, #0a0a0afb, #0a0a0a80 65%, #0a0a0a44),
+    linear-gradient(0deg, #090909, transparent 45%);
+}
+
+.browse-hero-copy {
+  position: relative;
+  z-index: 1;
+}
+
+.browse-hero-monogram {
+  position: absolute;
+  z-index: -1;
+  top: 52%;
+  right: 9%;
+  color: transparent;
+  font-size: clamp(18rem, 37vw, 34rem);
+  font-weight: 900;
+  line-height: 0.8;
+  opacity: 0.3;
+  pointer-events: none;
+  transform: translateY(-50%) perspective(800px) rotateY(-24deg) rotateZ(-9deg);
+  animation: monogram-drift 8s ease-in-out infinite alternate-reverse;
+}
+
+.poster-image,
+.movie-art {
+  isolation: isolate;
+  background-size: cover;
+  transition: background-size 500ms ease, filter 350ms ease;
+}
+
+.poster-image::before,
+.movie-art::before {
+  position: absolute;
+  z-index: -1;
+  inset: 12% 8% 24%;
+  border: 1px solid #ffffff18;
+  border-radius: 50%;
+  background: radial-gradient(ellipse at 38% 35%, #ffffff26, #ffffff03 53%, transparent 68%);
+  content: "";
+  transform: rotate(-28deg) scale(0.88);
+  transition: transform 500ms ease, opacity 350ms ease;
+}
+
+.poster-image::after,
+.movie-art::after {
+  position: absolute;
+  z-index: -1;
+  inset: 35% -35% -45% 35%;
+  border: 1px solid #ffffff14;
+  border-radius: 50%;
+  background: linear-gradient(145deg, #ffffff09, #0000 58%);
+  content: "";
+  transform: rotate(-28deg);
+}
+
+.poster-caption {
+  z-index: 1;
+}
+
+.poster-image:hover::before,
+.movie-card:hover .movie-art::before {
+  opacity: 0.8;
+  transform: rotate(-20deg) scale(1.04);
+}
+
+.poster-image:hover,
+.movie-card:hover .movie-art {
+  filter: saturate(1.2) brightness(1.08);
+}
+
+.home-rating,
+.poster-imdb {
+  position: absolute;
+  z-index: 2;
+  top: 14px;
+  left: 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 9px;
+  border: 1px solid #ffffff25;
+  border-radius: 999px;
+  background: #090909bb;
+  color: #fff;
+  font-size: 0.72rem;
+  backdrop-filter: blur(10px);
+}
+
+.poster-imdb {
+  top: 54px;
+  bottom: auto;
+  left: 14px;
+}
+
+.poster-imdb strong {
+  color: #f5c518;
+}
+
+.catalog-heading {
+  align-items: end;
+  flex-wrap: wrap;
+}
+
+.catalog-search {
+  width: min(100%, 350px);
+}
+
+.catalog-search label {
+  display: block;
+  margin-bottom: 7px;
+  color: #ccc;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.search-control {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 13px;
+  border: 1px solid #ffffff30;
+  border-radius: 6px;
+  background: #151515;
+  color: #d6d6d6;
+  transition: border-color 180ms ease, box-shadow 180ms ease;
+}
+
+.search-control:focus-within {
+  border-color: #e50914;
+  box-shadow: 0 0 0 3px #e5091430;
+}
+
+.search-control > span {
+  font-size: 1.55rem;
+  line-height: 1;
+}
+
+.search-control input {
+  width: 100%;
+  min-width: 0;
+  padding: 12px 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: #fff;
+}
+
+.search-control input::placeholder {
+  color: #888;
+}
+
+.catalog-result-count {
+  min-height: 1.5em;
+  margin: 15px 0 0;
+  font-size: 0.85rem;
+}
+
+.movie-card {
+  transform: perspective(1000px) rotateX(0) rotateY(0) translateY(0);
+  transform-style: preserve-3d;
+  transition: transform 320ms ease, box-shadow 320ms ease, border-color 320ms ease;
+  will-change: transform;
+}
+
+.movie-card:hover {
+  z-index: 1;
+  border-color: #e5091466;
+  box-shadow: 0 22px 44px #0008, 0 0 25px #e509141a;
+  transform: perspective(1000px) translateY(-7px) scale(1.015);
+}
+
+.movie-card.tilt-left {
+  transform: perspective(1000px) rotateY(3deg) translateY(-5px);
+}
+
+.movie-card.tilt-right {
+  transform: perspective(1000px) rotateY(-3deg) translateY(-5px);
+}
+
+.movie-card.tilt-up {
+  transform: perspective(1000px) rotateX(-2deg) translateY(-5px);
+}
+
+.movie-card.tilt-down {
+  transform: perspective(1000px) rotateX(2deg) translateY(-5px);
+}
+
+.movie-card.tilt-left.tilt-up {
+  transform: perspective(1000px) rotateX(-2deg) rotateY(3deg) translateY(-5px);
+}
+
+.movie-card.tilt-left.tilt-down {
+  transform: perspective(1000px) rotateX(2deg) rotateY(3deg) translateY(-5px);
+}
+
+.movie-card.tilt-right.tilt-up {
+  transform: perspective(1000px) rotateX(-2deg) rotateY(-3deg) translateY(-5px);
+}
+
+.movie-card.tilt-right.tilt-down {
+  transform: perspective(1000px) rotateX(2deg) rotateY(-3deg) translateY(-5px);
+}
+
+.movie-card[hidden],
+.search-empty[hidden] {
+  display: none !important;
+}
+
+.episode-meta,
+.catalog-disclaimer {
+  color: #aaa;
+  font-size: 0.78rem;
+}
+
+.episode-meta {
+  margin: 0 0 18px;
+}
+
+.catalog-disclaimer {
+  margin-top: 22px;
+}
+
+.search-empty {
+  margin-top: 26px;
+}
+
+@keyframes monogram-drift {
+  from {
+    translate: 0 -8px;
+  }
+
+  to {
+    translate: 0 11px;
+  }
+}
+
+@media (max-width: 700px) {
+  .hero-monogram {
+    top: 38%;
+    right: -2rem;
+    font-size: 34rem;
+    opacity: 0.2;
+  }
+
+  .browse-hero-monogram {
+    right: -3rem;
+    font-size: 22rem;
+    opacity: 0.22;
+  }
+
+  .catalog-search {
+    width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .movie-card,
+  .movie-card:hover,
+  .movie-card[class*="tilt-"] {
+    transform: none;
+  }
+}
